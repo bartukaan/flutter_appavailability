@@ -24,6 +24,7 @@ class AppAvailability {
   static Future<Map<String, String>> checkAvailability(String uri) async {
     Map<String, dynamic> args = <String, dynamic>{};
     args.putIfAbsent('uri', () => uri);
+
     if (Platform.isAndroid) {
       Map<dynamic, dynamic> app =
           await _channel.invokeMethod("checkAvailability", args);
@@ -46,8 +47,10 @@ class AppAvailability {
         "version_name": ""
       };
     }
+
     return Future.value({});
   }
+
   /// Only for **Android**.
   ///
   /// Get the list of all installed apps, where
@@ -66,10 +69,13 @@ class AppAvailability {
           });
         }
       }
+
       return list;
     }
+
     return List.empty();
   }
+
   /// Only for **Android**.
   ///
   /// Check if the app is enabled or not with the given [uri] scheme.
@@ -80,6 +86,7 @@ class AppAvailability {
     args.putIfAbsent('uri', () => uri);
     return await _channel.invokeMethod("isAppEnabled", args);
   }
+
   /// Launch an app with the given [uri] scheme if it exists.
   ///
   /// If the app app isn't found, then a [PlatformException] is thrown.
